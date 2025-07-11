@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Button } from "@repo/ui/button";
+import { HTTP_BACKEND } from "@/config";
 
 export function AuthPage({ isSignin }: { isSignin: boolean }) {
     const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ export function AuthPage({ isSignin }: { isSignin: boolean }) {
         setMessage("");
         try {
             if (isSignin) {
-                const res = await axios.post("http://localhost:3001/signin", {
+                const res = await axios.post(`${HTTP_BACKEND}/signin`, {
                     username: email,
                     password,
                 });
@@ -24,7 +25,7 @@ export function AuthPage({ isSignin }: { isSignin: boolean }) {
                 localStorage.setItem("token", token);
                 router.push("/rooms");
             } else {
-                await axios.post("http://localhost:3001/signup", {
+                await axios.post(`${HTTP_BACKEND}/signup`, {
                     username: email,
                     password,
                     name: email.split("@")[0],

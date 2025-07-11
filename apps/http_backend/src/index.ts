@@ -164,4 +164,4 @@ app.get("/rooms", middleware, async (req, res) => {
 });
 
 
-app.listen(process.env.PORT);
+app.listen(process.env.HTTP_PORT || 3001);
