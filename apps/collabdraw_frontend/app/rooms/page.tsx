@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Button } from "@repo/ui/button";
+import { HTTP_BACKEND } from "@/config";
 type Room = {
     id: number;
     slug: string;
@@ -20,7 +21,7 @@ export default function RoomPage() {
         const token = localStorage.getItem("token");
         if (!token) return router.push("/signin");
 
-        const res = await axios.get("http://localhost:3001/rooms", {
+        const res = await axios.get(`${HTTP_BACKEND}rooms`, {
             headers: { authorization: token },
         });
         setRooms(res.data.rooms);
@@ -30,7 +31,7 @@ export default function RoomPage() {
         const token = localStorage.getItem("token");
         try {
             const res = await axios.post(
-                "http://localhost:3001/room",
+                `${HTTP_BACKEND}room`,
                 { name: roomName },
                 { headers: { authorization: token } }
             );
