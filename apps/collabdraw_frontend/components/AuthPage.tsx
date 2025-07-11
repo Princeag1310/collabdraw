@@ -17,7 +17,7 @@ export function AuthPage({ isSignin }: { isSignin: boolean }) {
         setMessage("");
         try {
             if (isSignin) {
-                const res = await axios.post(`${HTTP_BACKEND}/signin`, {
+                const res = await axios.post(`${HTTP_BACKEND}signin`, {
                     username: email,
                     password,
                 });
@@ -25,7 +25,7 @@ export function AuthPage({ isSignin }: { isSignin: boolean }) {
                 localStorage.setItem("token", token);
                 router.push("/rooms");
             } else {
-                await axios.post(`${HTTP_BACKEND}/signup`, {
+                await axios.post(`${HTTP_BACKEND}signup`, {
                     username: email,
                     password,
                     name: email.split("@")[0],
