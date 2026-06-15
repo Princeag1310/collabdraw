@@ -44,35 +44,73 @@ export function AuthPage({ isSignin }: { isSignin: boolean }) {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-700 via-indigo-800 to-gray-900 text-white px-6">
-            <div className="bg-white text-black p-8 rounded-xl shadow-2xl w-full max-w-md animate-fade-up">
-                <h2 className="text-3xl font-bold mb-6 text-center">
-                    {isSignin ? "Welcome Back" : "Create an Account"}
-                </h2>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    className="w-full p-3 mb-6 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <Button
-                    appName="CollabDraw"
-                    className="w-full py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
-                    onClick={handleSubmit}
-                >
-                    {loading ? "Please wait..." : isSignin ? "Sign In" : "Sign Up"}
-                </Button>
+        <div className="relative flex flex-col items-center justify-center min-h-screen bg-slate-950 overflow-hidden text-white px-6">
+            {/* Background elements */}
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/20 blur-[100px] rounded-full mix-blend-screen" />
+            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 blur-[100px] rounded-full mix-blend-screen" />
+
+            <div className="z-10 w-full max-w-md p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl animate-fade-in-up">
+                <div className="text-center mb-8">
+                    <h2 className="text-3xl font-bold tracking-tight text-white mb-2">
+                        {isSignin ? "Welcome Back" : "Create an Account"}
+                    </h2>
+                    <p className="text-sm text-slate-400">
+                        {isSignin ? "Sign in to access your drawing rooms." : "Get started with your free account."}
+                    </p>
+                </div>
+                
+                <div className="space-y-5">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-300 mb-1.5">Email address</label>
+                        <input
+                            type="email"
+                            placeholder="you@example.com"
+                            className="w-full p-3 bg-slate-900/50 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all placeholder:text-slate-500 text-white"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </div>
+                    
+                    <div>
+                        <label className="block text-sm font-medium text-slate-300 mb-1.5">Password</label>
+                        <input
+                            type="password"
+                            placeholder="••••••••"
+                            className="w-full p-3 bg-slate-900/50 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all placeholder:text-slate-500 text-white"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
+
+                    <Button
+                        appName="CollabDraw"
+                        className="w-full py-3.5 mt-2 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-500 transition-all hover:shadow-[0_0_20px_-5px_rgba(79,70,229,0.5)] active:scale-95 disabled:opacity-50 disabled:active:scale-100"
+                        onClick={handleSubmit}
+                        disabled={loading}
+                    >
+                        {loading ? "Please wait..." : isSignin ? "Sign In" : "Sign Up"}
+                    </Button>
+                </div>
+
                 {message && (
-                    <p className="mt-4 text-center text-sm text-gray-700">{message}</p>
+                    <div className={`mt-6 p-3 rounded-lg text-sm font-medium text-center backdrop-blur-md border ${
+                        message.includes("❌") 
+                            ? "bg-red-500/10 border-red-500/20 text-red-400" 
+                            : "bg-green-500/10 border-green-500/20 text-green-400"
+                    }`}>
+                        {message}
+                    </div>
                 )}
+                
+                <p className="mt-8 text-center text-sm text-slate-400">
+                    {isSignin ? "Don't have an account? " : "Already have an account? "}
+                    <button 
+                        onClick={() => router.push(isSignin ? "/signup" : "/signin")}
+                        className="font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
+                    >
+                        {isSignin ? "Sign up" : "Sign in"}
+                    </button>
+                </p>
             </div>
         </div>
     );
