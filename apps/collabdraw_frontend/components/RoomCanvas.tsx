@@ -29,7 +29,7 @@ export function RoomCanvas({roomId}: {roomId: string}){
             })
             ws.send(data)
         }
-    }, [])
+    }, [roomId, router])
 
     
 

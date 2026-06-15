@@ -17,15 +17,18 @@ export default function RoomPage() {
     const [message, setMessage] = useState("");
     const router = useRouter();
 
-    const fetchRooms = async () => {
-        const token = localStorage.getItem("token");
-        if (!token) return router.push("/signin");
+    useEffect(() => {
+        const fetchRooms = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) return router.push("/signin");
 
-        const res = await axios.get(`${HTTP_BACKEND}rooms`, {
-            headers: { authorization: token },
-        });
-        setRooms(res.data.rooms);
-    };
+            const res = await axios.get(`${HTTP_BACKEND}rooms`, {
+                headers: { authorization: token },
+            });
+            setRooms(res.data.rooms);
+        };
+        fetchRooms();
+    }, [router]);
 
     const createRoom = async () => {
         const token = localStorage.getItem("token");
@@ -40,10 +43,6 @@ export default function RoomPage() {
             setMessage("❌ Room name already exists. Try something else.");
         }
     };
-
-    useEffect(() => {
-        fetchRooms();
-    }, []);
 
     return (
         <div className="min-h-screen bg-gray-950 text-white p-8">
